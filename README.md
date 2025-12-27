@@ -1,4 +1,4 @@
-# Connectify Auth Service
+# Annora Auth Service
 
 A **production-ready authentication microservice** built in **Go**, providing secure JWT-based authentication with **refresh token rotation**, **PostgreSQL persistence**, and a **clean layered architecture**.
 
@@ -20,6 +20,7 @@ This service is designed to be **independently deployable**, **frontend-agnostic
 ## 🧱 Architecture
 
 This service follows a **Layered Architecture (Service–Repository pattern)**:
+
 - **Handlers**: HTTP concerns only
 - **Services**: Authentication & session logic
 - **Repositories**: Database access only
@@ -30,10 +31,10 @@ The service is designed to be deployed as **one microservice** in a larger syste
 
 ## 🔐 Authentication Model (Tokens)
 
-| Token | Purpose | Lifetime | Stored |
-|---|---|---|---|
-| Access Token (JWT) | API authorization | Short (e.g. 15 min) | Client memory |
-| Refresh Token | Session continuation | Long (e.g. 7 days) | DB + secure client storage |
+| Token              | Purpose              | Lifetime            | Stored                     |
+| ------------------ | -------------------- | ------------------- | -------------------------- |
+| Access Token (JWT) | API authorization    | Short (e.g. 15 min) | Client memory              |
+| Refresh Token      | Session continuation | Long (e.g. 7 days)  | DB + secure client storage |
 
 - Access tokens are **stateless**
 - Refresh tokens are **stored, rotated, and revocable**

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/AdityaTaggar05/connectify-auth/internal/config"
-	"github.com/AdityaTaggar05/connectify-auth/internal/utils"
+	"github.com/AdityaTaggar05/annora-auth/internal/config"
+	"github.com/AdityaTaggar05/annora-auth/internal/utils"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"golang.org/x/crypto/bcrypt"
 )

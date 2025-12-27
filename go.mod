@@ -1,4 +1,4 @@
-module github.com/AdityaTaggar05/connectify-auth
+module github.com/AdityaTaggar05/annora-auth
 
 go 1.25.0
 

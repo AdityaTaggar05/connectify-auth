@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/AdityaTaggar05/connectify-auth/internal/auth"
-	"github.com/AdityaTaggar05/connectify-auth/internal/config"
-	"github.com/AdityaTaggar05/connectify-auth/internal/database"
+	"github.com/AdityaTaggar05/annora-auth/internal/auth"
+	"github.com/AdityaTaggar05/annora-auth/internal/config"
+	"github.com/AdityaTaggar05/annora-auth/internal/database"
 	"github.com/joho/godotenv"
 
 	"github.com/go-chi/chi/v5"

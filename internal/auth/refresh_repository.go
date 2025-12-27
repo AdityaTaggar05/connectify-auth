@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/AdityaTaggar05/connectify-auth/internal/models"
+	"github.com/AdityaTaggar05/annora-auth/internal/models"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
