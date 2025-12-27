@@ -46,7 +46,7 @@ func (s *Service) Login(ctx context.Context, email, password string) (Tokens, er
 		return tokens, err
 	}
 
-	tokens.AccessToken, err = utils.GenerateJWT(user.ID, s.Config.JWT_PRIVATE_KEY, s.Config.JWT_EXP)
+	tokens.AccessToken, err = utils.GenerateJWT(user.ID, s.Config.JWT_SIGNING_KEY, s.Config.JWT_EXP)
 	if err != nil {
 		return tokens, err
 	}
@@ -83,7 +83,7 @@ func (s *Service) Refresh(ctx context.Context, oldToken string) (Tokens, error) 
 	}
 	_ = s.RefreshRepo.Create(ctx, rt.UserID, tokens.RefreshToken, time.Now().Add(s.Config.REFRESH_EXP))
 
-	tokens.AccessToken, err = utils.GenerateJWT(rt.UserID, s.Config.JWT_PRIVATE_KEY, s.Config.JWT_EXP)
+	tokens.AccessToken, err = utils.GenerateJWT(rt.UserID, s.Config.JWT_SIGNING_KEY, s.Config.JWT_EXP)
 	if err != nil {
 		return tokens, err
 	}
