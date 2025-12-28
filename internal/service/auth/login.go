@@ -16,6 +16,10 @@ func (s *Service) Login(ctx context.Context, email, password string) (model.Toke
 		return tokens, err
 	}
 
+	if !user.Verified {
+		return tokens, ErrEmailNotVerified
+	}
+
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
 		return tokens, err
 	}

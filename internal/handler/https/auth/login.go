@@ -3,6 +3,8 @@ package authhandler
 import (
 	"encoding/json"
 	"net/http"
+
+	authservice "github.com/AdityaTaggar05/annora-auth/internal/service/auth"
 )
 
 type loginRequest struct {
@@ -21,9 +23,16 @@ func (h *Handler) HandleLogin(w http.ResponseWriter, r *http.Request) {
 	tokens, err := h.Service.Login(r.Context(), req.Email, req.Password)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusUnauthorized)
-		return
+		switch err {
+			case authservice.ErrEmailNotVerified:
+				http.Error(w, "email not verified", http.StatusForbidden)
+				return
+			default:
+				http.Error(w, err.Error(), http.StatusUnauthorized)
+				return
+		}
 	}
+
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(tokens)
 }
