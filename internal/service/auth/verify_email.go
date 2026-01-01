@@ -7,7 +7,7 @@ func (s *Service) VerifyEmail(ctx context.Context, token string) error {
 	
 	userID, err := s.TokenRepo.VerifyEmailToken(ctx, key)
 	if err != nil {
-		return err
+		return ErrInvalidToken
 	}
 
 	return s.AuthRepo.MarkEmailVerified(ctx, userID)

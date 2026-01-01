@@ -3,7 +3,7 @@ package authhandler
 import (
 	"net/http"
 
-	"github.com/redis/go-redis/v9"
+	authservice "github.com/AdityaTaggar05/annora-auth/internal/service/auth"
 )
 
 func (h *Handler) HandleVerifyEmail(w http.ResponseWriter, r *http.Request) {
@@ -18,10 +18,10 @@ func (h *Handler) HandleVerifyEmail(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		switch err {
-		case redis.Nil:
-			http.Error(w, "invalid or expired token", http.StatusBadRequest)
-		default:
-			http.Error(w, "internal server error", http.StatusInternalServerError)
+			case authservice.ErrInvalidToken:
+				http.Error(w, err.Error(), http.StatusBadRequest)
+			default:
+				http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 		return
 	}

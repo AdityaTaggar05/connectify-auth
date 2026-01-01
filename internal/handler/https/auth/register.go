@@ -24,14 +24,12 @@ func (h *Handler) HandleRegister(w http.ResponseWriter, r *http.Request) {
 		switch err {
 			case authservice.ErrInvalidEmailFormat, authservice.ErrInvalidPasswordFormat:
 				http.Error(w, err.Error(), http.StatusBadRequest)
-				return
 			case authservice.ErrUserAlreadyExists:
 				http.Error(w, err.Error(), http.StatusConflict)
-				return
 			default:
-				http.Error(w, err.Error(), http.StatusBadRequest)
-				return
+				http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
+		return
 	}
 	
 	w.WriteHeader(http.StatusCreated)
