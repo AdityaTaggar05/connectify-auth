@@ -9,11 +9,19 @@ import (
 )
 
 func (s *Service) Login(ctx context.Context, email, password string) (model.TokenPair, error) {
+	if !isValidEmail(email) {
+		return model.TokenPair{}, ErrInvalidEmailFormat
+	}
+
+	if password == "" {
+		return model.TokenPair{}, ErrInvalidPasswordFormat
+	}
+
 	tokens := model.TokenPair{}
 
 	user, err := s.AuthRepo.GetUserByEmail(ctx, email)
 	if err != nil {
-		return tokens, err
+		return tokens, ErrUserNotFound
 	}
 
 	if !user.Verified {
@@ -21,7 +29,7 @@ func (s *Service) Login(ctx context.Context, email, password string) (model.Toke
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
-		return tokens, err
+		return tokens, ErrIncorrectPassword
 	}
 
 	tokens.AccessToken, err = model.GenerateJWT(user.ID, s.SigningKey, s.Config.AccessTTL)

@@ -24,13 +24,16 @@ func (h *Handler) HandleLogin(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		switch err {
-			case authservice.ErrEmailNotVerified:
-				http.Error(w, "email not verified", http.StatusForbidden)
-				return
-			default:
+			case authservice.ErrInvalidEmailFormat, authservice.ErrInvalidPasswordFormat:
+				http.Error(w, err.Error(), http.StatusBadRequest)
+			case authservice.ErrUserNotFound, authservice.ErrIncorrectPassword:
 				http.Error(w, err.Error(), http.StatusUnauthorized)
-				return
+			case authservice.ErrEmailNotVerified:
+				http.Error(w, err.Error(), http.StatusForbidden)
+			default:
+				http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
+		return
 	}
 
 	w.WriteHeader(http.StatusOK)
