@@ -1,5 +1,9 @@
 package tokenservice
 
+import "encoding/base64"
+
 func IsValidRefreshToken(token string) bool {
-	return len(token) == 32
+	b, err := base64.URLEncoding.DecodeString(token)
+
+	return len(b) == 32 && err == nil
 }
