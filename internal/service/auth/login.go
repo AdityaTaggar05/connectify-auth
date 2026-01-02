@@ -32,7 +32,7 @@ func (s *Service) Login(ctx context.Context, email, password string) (model.Toke
 		return tokens, ErrIncorrectPassword
 	}
 
-	tokens.AccessToken, err = model.GenerateJWT(user.ID, s.SigningKey, s.Config.AccessTTL)
+	tokens.AccessToken, err = model.GenerateJWT(user, s.SigningKey, s.Config.AccessTTL)
 	if err != nil {
 		return tokens, err
 	}

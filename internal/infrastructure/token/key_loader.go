@@ -32,6 +32,7 @@ func LoadSigningKey(cfg config.JWTConfig) (*model.SigningKey, error) {
 
 	return &model.SigningKey{
 		ID:         "auth-key-2025-12",
+		Issuer:     cfg.Issuer,
 		PrivateKey: privateKey,
 		PublicKey:  &privateKey.PublicKey,
 	}, nil

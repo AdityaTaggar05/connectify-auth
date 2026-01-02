@@ -11,8 +11,9 @@ import (
 
 type SigningKey struct {
 	ID         string
+	Issuer     string
 	PrivateKey *rsa.PrivateKey
-	PublicKey *rsa.PublicKey
+	PublicKey  *rsa.PublicKey
 }
 
 func (s *SigningKey) PublicKeyToJWK() map[string]string {
@@ -29,12 +30,13 @@ func (s *SigningKey) PublicKeyToJWK() map[string]string {
     }
 }
 
-func GenerateJWT(id string, signingKey *SigningKey, ttl time.Duration) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.RegisteredClaims{
-		Subject: id,
-		ExpiresAt: jwt.NewNumericDate(time.Now().Add(ttl)),
-		IssuedAt: jwt.NewNumericDate(time.Now()),
-		Issuer: "annora-auth",
+func GenerateJWT(user User, signingKey *SigningKey, ttl time.Duration) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
+		"sub": user.ID,
+		"role": user.Role,
+		"exp": jwt.NewNumericDate(time.Now().Add(ttl)),
+		"iat": jwt.NewNumericDate(time.Now()),
+		"iss": signingKey.Issuer,
 	})
 
 	token.Header["kid"] = signingKey.ID

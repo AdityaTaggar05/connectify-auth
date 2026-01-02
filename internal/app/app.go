@@ -46,7 +46,7 @@ func New(cfg *config.Config) (*App, error) {
 	mailer := mailer.NewMailer(cfg.Email)
 
 	authService := authservice.NewService(authRepo, tokenRepo, mailer, cfg.JWT, cfg.Email.TokenTTL, signingKey)
-	tokenService := tokenservice.NewService(tokenRepo, cfg.JWT, signingKey)
+	tokenService := tokenservice.NewService(authRepo, tokenRepo, cfg.JWT, signingKey)
 
 	// 4) Handler Setup
 	authHandler := authhandler.NewHandler(authService)
